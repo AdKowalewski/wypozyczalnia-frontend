@@ -33,11 +33,11 @@ const ListOfCars = () => {
     //     setIsAdmin(false);
     // }
 
-    const openDetails = (car) => {
-        //car_id = car;
-        navigate(`/cars/${car}`);
-        window.location.reload();
-    };
+    // const openDetails = (car) => {
+    //     //car_id = car;
+    //     navigate(`/cars/${car}`);
+    //     window.location.reload();
+    // };
 
     useEffect(() => {
         CarService.getCars(0).then((res) => {
@@ -82,7 +82,7 @@ const ListOfCars = () => {
                         <div className="content">
                             Price for 1 day: {car.price}zł
                         </div>
-                        <button className="button is-primary" onClick={openDetails(car)}>
+                        <button className="button is-primary" onClick={null}>
                             <strong>Reserve</strong>
                         </button>
                         {/* {isLoggedIn && <button className="button is-primary" onClick={openDetails(car)}>

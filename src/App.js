@@ -33,7 +33,7 @@ function App() {
         <Route path='/users/login' element={<Login/>} />
         <Route path='/unauthorized' element={<Unauthorized/>} />
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
+        {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
           <Route path='/profile/:id' element={<UserProfile/>} />
         </Route>
 
@@ -46,7 +46,7 @@ function App() {
           <Route path='/addCar' element={<AddCar/>} />
           <Route path='/editCar/:car_id' element={<EditCar/>} />
           <Route path='/editRental/:rental_id' element={<EditRental/>} />
-        </Route>
+        </Route> */}
 
         <Route path='*' element={<Missing/>} />
       </Routes>
