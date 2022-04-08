@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import RentalService from '../services/RentalService';
 import DatePicker from 'react-datepicker';
 import 'bulma/css/bulma.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CarDetails = (props) => {
     const API_URL = "http://127.0.0.1:8000/";
 
     const navigate = useNavigate();
+    //const { car_id } = useParams();
 
     const [carRentals, setCarRentals] = useState([]);
     const [startDate, setStartDate] = useState(new Date());

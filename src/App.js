@@ -13,6 +13,8 @@ import AdminPanel from './components/AdminPanel';
 import RequireAuth from './components/RequireAuth';
 import UserProfile from './components/UserProfile';
 import CarDetails from './components/CarDetails';
+import EditCar from './components/EditCar';
+import EditRental from './components/EditRental';
 
 const ROLES = {
   User: 'regular_user',
@@ -23,30 +25,30 @@ function App() {
 
   return (
     <div className="App">
-      <HeaderComponent/>
+      <HeaderComponent />
       <Routes>
         <Route path='/' exact element={<ListOfCars/>} />
-        <Route path='/cars' element={<ListOfCars/>} />
-        <Route path='/cars/:car_id' element={<CarDetails/>} />
+        <Route path='/cars' exact element={<ListOfCars/>} />
         <Route path='/users/register' element={<SignUp/>} />
         <Route path='/users/login' element={<Login/>} />
-        <Route path='/unauthorized' element={<Unauthorized />} />
-
-        <Route path='/profile' element={<UserProfile/>} />
+        <Route path='/unauthorized' element={<Unauthorized/>} />
 
         <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
-          <Route path='/profile' element={<UserProfile/>} />
+          <Route path='/profile/:id' element={<UserProfile/>} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
+          <Route path='/cars/:car_id' element={<CarDetails/>} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+          <Route path='/adminPanel' element={<AdminPanel/>} />
           <Route path='/addCar' element={<AddCar/>} />
+          <Route path='/editCar/:car_id' element={<EditCar/>} />
+          <Route path='/editRental/:rental_id' element={<EditRental/>} />
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
-          <Route path='/addCar' element={<AdminPanel/>} />
-        </Route>
-
-        <Route path='*' element={<Missing />} />
+        <Route path='*' element={<Missing/>} />
       </Routes>
     </div>
   );

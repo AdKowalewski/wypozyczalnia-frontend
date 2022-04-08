@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CarService from '../services/CarService';
 import useAuth from '../hooks/useAuth';
 
@@ -13,6 +13,7 @@ const ListOfCars = () => {
     const API_URL = "http://127.0.0.1:8000/";
 
     const { auth } = useAuth();
+    //const { car_id } = useParams(); 
 
     const navigate = useNavigate();
 
@@ -33,7 +34,8 @@ const ListOfCars = () => {
     // }
 
     const openDetails = (car) => {
-        navigate('/'); //TODO
+        //car_id = car;
+        navigate(`/cars/${car}`);
         window.location.reload();
     };
 
@@ -48,6 +50,11 @@ const ListOfCars = () => {
         return CarService.deleteCarById(car_id).then((res) => {
             console.log(res);
         })
+    };
+
+    const goToEditCarForm = (car_id) => {
+        navigate(`/addCar/${car_id}`);
+        window.location.reload();
     };
 
     const goToAddCarForm = () => {
@@ -75,10 +82,13 @@ const ListOfCars = () => {
                         <div className="content">
                             Price for 1 day: {car.price}zł
                         </div>
-                        {isLoggedIn && <button className="button is-primary" onClick={openDetails(car)}>
+                        <button className="button is-primary" onClick={openDetails(car)}>
                             <strong>Reserve</strong>
-                        </button>}
-                        {isAdmin && <button className="button is-primary" onClick={null}>Edit car</button>}
+                        </button>
+                        {/* {isLoggedIn && <button className="button is-primary" onClick={openDetails(car)}>
+                            <strong>Reserve</strong>
+                        </button>} */}
+                        {isAdmin && <button className="button is-primary" onClick={goToEditCarForm(car.id)}>Edit car</button>}
                         {isAdmin && <button className="button is-danger" onClick={deleteCarHandler(car.id)}>Delete car</button>}
                     </div>
                 </div>
