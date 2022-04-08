@@ -6,18 +6,17 @@ import ListOfCars from './components/ListOfCars';
 import HeaderComponent from './components/HeaderComponent';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-//import AddCar from './components/AddCar';
+import AddCar from './components/AddCar';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
-//import UserProfile from './components/UserProfile';
-//import AdminPanel from './components/AdminPanel';
-//import RequireAuth from './components/RequireAuth';
+import AdminPanel from './components/AdminPanel';
+import RequireAuth from './components/RequireAuth';
 import UserProfile from './components/UserProfile';
 import CarDetails from './components/CarDetails';
 
 const ROLES = {
-  'User': 2001,
-  'Admin': 5150
+  User: 'regular_user',
+  Admin: 'admin'
 }
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
 
         <Route path='/profile' element={<UserProfile/>} />
 
-        {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
           <Route path='/profile' element={<UserProfile/>} />
         </Route>
 
@@ -45,7 +44,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
           <Route path='/addCar' element={<AdminPanel/>} />
-        </Route> */}
+        </Route>
 
         <Route path='*' element={<Missing />} />
       </Routes>
