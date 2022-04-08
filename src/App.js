@@ -27,9 +27,8 @@ function App() {
       <HeaderComponent/>
       <Routes>
         <Route path='/' exact element={<ListOfCars/>} />
-        <Route path='/cars' element={<ListOfCars/>} >
-          <Route path=':car_id' element={<CarDetails/>} />
-        </Route>
+        <Route path='/cars' element={<ListOfCars/>} />
+        <Route path='/cars/:car_id' element={<CarDetails/>} />
         <Route path='/users/register' element={<SignUp/>} />
         <Route path='/users/login' element={<Login/>} />
         <Route path='/unauthorized' element={<Unauthorized />} />

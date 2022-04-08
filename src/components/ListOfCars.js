@@ -20,12 +20,11 @@ const ListOfCars = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
-    const user = localStorage.getItem('user');
-    if(user) {
-        setIsLoggedIn(true);
-    } else {
-        setIsLoggedIn(false);
-    }
+    // if(auth.token != null) {
+    //     setIsLoggedIn(true);
+    // } else {
+    //     setIsLoggedIn(false);
+    // }
 
     // if(auth.roles == `List [ "admin" ]`) {
     //     setIsAdmin(true);
