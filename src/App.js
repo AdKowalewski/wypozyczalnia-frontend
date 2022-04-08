@@ -1,23 +1,55 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import 'bulma/css/bulma.min.css';
+import ListOfCars from './components/ListOfCars';
+import HeaderComponent from './components/HeaderComponent';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
+//import AddCar from './components/AddCar';
+import Missing from './components/Missing';
+import Unauthorized from './components/Unauthorized';
+//import UserProfile from './components/UserProfile';
+//import AdminPanel from './components/AdminPanel';
+//import RequireAuth from './components/RequireAuth';
+import UserProfile from './components/UserProfile';
+import CarDetails from './components/CarDetails';
+
+const ROLES = {
+  'User': 2001,
+  'Admin': 5150
+}
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeaderComponent/>
+      <Routes>
+        <Route path='/' exact element={<ListOfCars/>} />
+        <Route path='/cars' element={<ListOfCars/>} >
+          <Route path=':car_id' element={<CarDetails/>} />
+        </Route>
+        <Route path='/users/register' element={<SignUp/>} />
+        <Route path='/users/login' element={<Login/>} />
+        <Route path='/unauthorized' element={<Unauthorized />} />
+
+        <Route path='/profile' element={<UserProfile/>} />
+
+        {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
+          <Route path='/profile' element={<UserProfile/>} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+          <Route path='/addCar' element={<AddCar/>} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+          <Route path='/addCar' element={<AdminPanel/>} />
+        </Route> */}
+
+        <Route path='*' element={<Missing />} />
+      </Routes>
     </div>
   );
 }
