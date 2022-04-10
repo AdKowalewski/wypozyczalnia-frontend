@@ -17,8 +17,8 @@ import EditCar from './components/EditCar';
 import EditRental from './components/EditRental';
 
 const ROLES = {
-  User: 'regular_user',
-  Admin: 'admin'
+  'User': 'regular_user',
+  'Admin': 'admin'
 }
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
         <Route path='/users/login' element={<Login/>} />
         <Route path='/unauthorized' element={<Unauthorized/>} />
 
-        {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]}/>}>
           <Route path='/profile/:id' element={<UserProfile/>} />
         </Route>
 
@@ -41,12 +41,12 @@ function App() {
           <Route path='/cars/:car_id' element={<CarDetails/>} />
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+        <Route element={<RequireAuth allowedRoles={ROLES.Admin}/>}>
           <Route path='/adminPanel' element={<AdminPanel/>} />
           <Route path='/addCar' element={<AddCar/>} />
           <Route path='/editCar/:car_id' element={<EditCar/>} />
           <Route path='/editRental/:rental_id' element={<EditRental/>} />
-        </Route> */}
+        </Route>
 
         <Route path='*' element={<Missing/>} />
       </Routes>

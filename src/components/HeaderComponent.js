@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import useAuth from '../hooks/useAuth';
 
 const HeaderComponent = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    //const { setAuth } = useAuth();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -28,9 +26,9 @@ const HeaderComponent = () => {
     };
 
     const logOut = () => {
-        //setAuth({});
-        navigate('/');
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate('/');
         window.location.reload();
     }
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth.js';
+//import useAuth from '../hooks/useAuth.js';
 import axios from 'axios';
 import './loader.css';
 import 'bulma/css/bulma.min.css';
@@ -9,7 +9,7 @@ import jwt from 'jwt-decode';
 const API_URL = 'http://127.0.0.1:8000';
 
 const Login = () => {
-    const { setAuth } = useAuth();
+    //const { setAuth } = useAuth();
 
     const navigate = useNavigate();
 
@@ -47,7 +47,8 @@ const Login = () => {
             localStorage.setItem('token', JSON.stringify(token));
             const user = jwt(token);
             const roles = user.role;
-            setAuth({ email, password, roles, token });
+            localStorage.setItem('role', JSON.stringify(roles));
+            //setAuth({ email, password, roles, token });
             setEmail('');
             setPassword('');
             setLoading(false);
