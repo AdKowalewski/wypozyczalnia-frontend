@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CarService from '../services/CarService';
-import useAuth from '../hooks/useAuth';
 
 const ListOfCars = () => {
     // const initialCars = [
@@ -12,7 +11,7 @@ const ListOfCars = () => {
 
     const API_URL = "http://127.0.0.1:8000/";
 
-    const { auth } = useAuth();
+    //const { auth } = useAuth();
     //const { car_id } = useParams(); 
 
     const navigate = useNavigate();

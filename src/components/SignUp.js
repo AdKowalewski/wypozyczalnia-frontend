@@ -26,12 +26,9 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-
     const [password, setPassword] = useState('');
-
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -64,8 +61,7 @@ const SignUp = () => {
             console.log(err);
             // if (!err) {
             //     setErrMsg('No Server Response');
-            // } else 
-            // if (err.response.status === 409) {
+            // } else if (err.response.status === 409) {
             //     setErrMsg('Username Taken');
             // } else {
             //     setErrMsg('Registration Failed')

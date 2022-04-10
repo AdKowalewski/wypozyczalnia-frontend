@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import RentalService from '../services/RentalService';
-import useAuth from '../hooks/useAuth';
 
 const UserProfile = () => {
-    //const { auth } = useAuth();
-    //const userEmail = auth.email;
 
     const [rentals, setRentals] = useState([]);
 
