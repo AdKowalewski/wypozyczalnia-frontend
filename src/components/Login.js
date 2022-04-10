@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
 import axios from 'axios';
-//import '../index.css';
 import './loader.css';
 import 'bulma/css/bulma.min.css';
 import jwt from 'jwt-decode';
@@ -55,6 +54,7 @@ const Login = () => {
             navigate('/');
             window.location.reload();
         } catch (err) {
+            console.log(err);
             // if (!err) {
             //     setErrMsg('No Server Response');
             // } else 
@@ -67,6 +67,8 @@ const Login = () => {
             // }
             // errRef.current.focus();
         }
+        navigate('/');
+        window.location.reload();
     }
 
     const handleCancel = () => {
