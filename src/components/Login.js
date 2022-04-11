@@ -1,15 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './loader.css';
 import 'bulma/css/bulma.min.css';
 import jwt from 'jwt-decode';
+import AuthContext from '../context/Auth';
 
 const API_URL = 'http://127.0.0.1:8000';
 
 const Login = () => {
 
     const navigate = useNavigate();
+
+    const authCtx = useContext(AuthContext);
 
     const emailRef = useRef();
     const errRef = useRef();
@@ -39,18 +42,17 @@ const Login = () => {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
-            );
+            )
             console.log(JSON.stringify(response.data));
             const token = response.data.token;
-            localStorage.setItem('token', JSON.stringify(token));
+            //localStorage.setItem('token1', token);
             const user = jwt(token);
             const roles = user.role;
-            localStorage.setItem('role', roles);
+            //localStorage.setItem('role1', roles);
+            authCtx.onLogin({token: token, role: roles});
             setEmail('');
             setPassword('');
             setLoading(false);
-            navigate('/');
-            window.location.reload();
         } catch (err) {
             console.log(err);
             // if (!err) {

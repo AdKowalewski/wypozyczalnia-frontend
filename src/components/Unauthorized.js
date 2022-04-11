@@ -9,8 +9,9 @@ const Unauthorized = () => {
     return (
         <section>
             <h1>Unauthorized</h1>
-            <br />
+            <br/>
             <p>You do not have access to the requested page.</p>
+            <br/>
             <button onClick={goBack}>Go Back</button>
         </section>
     );
