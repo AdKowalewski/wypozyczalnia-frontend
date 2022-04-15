@@ -72,7 +72,6 @@ const SignUp = () => {
 
     const handleCancel = () => {
         navigate("/");
-        window.location.reload();
     };
 
     return (

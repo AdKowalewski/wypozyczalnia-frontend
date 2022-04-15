@@ -45,10 +45,8 @@ const Login = () => {
             )
             console.log(JSON.stringify(response.data));
             const token = response.data.token;
-            //localStorage.setItem('token1', token);
             const user = jwt(token);
             const roles = user.role;
-            //localStorage.setItem('role1', roles);
             authCtx.onLogin({token: token, role: roles});
             setEmail('');
             setPassword('');
@@ -68,12 +66,10 @@ const Login = () => {
             // errRef.current.focus();
         }
         navigate('/');
-        window.location.reload();
     }
 
     const handleCancel = () => {
         navigate("/");
-        window.location.reload();
     };
 
     return (

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import RentalService from '../services/RentalService';
+import CarService from '../services/CarService';
 import DatePicker from 'react-datepicker';
 import 'bulma/css/bulma.min.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CarDetails = (props) => {
+const CarDetails = () => {
     const API_URL = "http://127.0.0.1:8000/";
 
     const navigate = useNavigate();
-    //const { car_id } = useParams();
+    const { car_id } = useParams();
 
+    const [car, setCar] = useState(null);
     const [carRentals, setCarRentals] = useState([]);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
@@ -17,7 +19,7 @@ const CarDetails = (props) => {
     const handleRental = () => {
         const start = formatDate(startDate);
         const end = formatDate(endDate);
-        RentalService.createRental(start, end, props.id).then(res => console.log(res));
+        RentalService.createRental(start, end, car.id).then(res => console.log(res));
     };
 
     const getDates = (startDate, endDate) => {
@@ -39,15 +41,21 @@ const CarDetails = (props) => {
     };
 
     useEffect(() => {
-        RentalService.getRentalsByCarId(props.id).then((res) => {
+        RentalService.getRentalsByCarId(car.id).then((res) => {
             console.log(res);
             setCarRentals(res.data);
         });
     }, []);
 
+    useEffect(() => {
+        CarService.getCars(car_id).then((res) => {
+            console.log(res);
+            setCar(res.data);
+        });
+    }, []);
+
     const handleCancel = () => {
         navigate(-1);
-        window.location.reload();
     };
 
     const getDisabledDates = () => {
@@ -94,16 +102,16 @@ const CarDetails = (props) => {
     return (
         <div>
             <figure className="image is-128x128">
-                <img src={API_URL + props.img}/>
+                <img src={API_URL + car.img}/>
             </figure>
             <br/><br/>
-            <h2>{props.brand}</h2>
+            <h2>{car.brand}</h2>
             <br/><br/>
-            <h3>{props.model}</h3>
+            <h3>{car.model}</h3>
             <br/><br/>
-            <h3>Price for 1 day: {props.price}</h3>
+            <h3>Price for 1 day: {car.price}</h3>
             <br/><br/>
-            <p>{props.description}</p>
+            <p>{car.description}</p>
             <br/><br/>
             <form onSubmit={handleRental}>
                 <label>Rental date range:</label>

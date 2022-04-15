@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 export const AuthContext = React.createContext({
-    isLoggedIn: false,
-    token: null,
-    role: null,
-    onLogin: ({ token, role }) => {},
-    onLogout: () => {}
+    // isLoggedIn: false,
+    // token: null,
+    // role: null,
+    // onLogin: ({ token, role }) => {},
+    // onLogout: () => {}
 });
 
 export const AuthProvider = (props) => {
@@ -18,16 +18,20 @@ export const AuthProvider = (props) => {
         setRole(role);
         setIsLoggedIn(true);
         localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
+        //localStorage.setItem('role', role);
     };
 
     const onLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        //localStorage.removeItem('role');
         setToken(null);
         setRole(null);
         setIsLoggedIn(false);
     };
+
+    // const isToken = localStorage.getItem('token');
+    // if(isToken) setIsLoggedIn(true);
+    // else setIsLoggedIn(false);
 
     const contextValue = {
         isLoggedIn: isLoggedIn,

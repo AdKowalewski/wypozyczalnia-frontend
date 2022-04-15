@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CarService from '../services/CarService';
+import AuthContext from '../context/Auth';
 
 const ListOfCars = () => {
     // const initialCars = [
@@ -9,34 +10,17 @@ const ListOfCars = () => {
     //     {id: '3', marka: 'Volkswagen', model: 'Passat'}
     // ];
 
-    const API_URL = "http://127.0.0.1:8000/";
-
-    //const { auth } = useAuth();
-    //const { car_id } = useParams(); 
+    const API_URL = "http://127.0.0.1:8000/"; 
 
     const navigate = useNavigate();
 
+    const authCtx = useContext(AuthContext);
+
     const [cars, setCars] = useState([]);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
 
-    // if(auth.token != null) {
-    //     setIsLoggedIn(true);
-    // } else {
-    //     setIsLoggedIn(false);
-    // }
-
-    // if(auth.roles == `List [ "admin" ]`) {
-    //     setIsAdmin(true);
-    // } else {
-    //     setIsAdmin(false);
-    // }
-
-    // const openDetails = (car) => {
-    //     //car_id = car;
-    //     navigate(`/cars/${car}`);
-    //     window.location.reload();
-    // };
+    const openDetails = (car_id) => {
+        navigate(`/cars/${car_id}`);
+    };
 
     useEffect(() => {
         CarService.getCars(0).then((res) => {
@@ -53,17 +37,15 @@ const ListOfCars = () => {
 
     const goToEditCarForm = (car_id) => {
         navigate(`/addCar/${car_id}`);
-        window.location.reload();
     };
 
     const goToAddCarForm = () => {
         navigate('/addCar');
-        window.location.reload();
     };
 
     return (
         <div>
-            {isAdmin && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
+            {authCtx.role == 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
             {cars.map(car => (
                 <div key={car.id}>
                     <div className='card'>
@@ -84,11 +66,11 @@ const ListOfCars = () => {
                         <button className="button is-primary" onClick={null}>
                             <strong>Reserve</strong>
                         </button>
-                        {/* {isLoggedIn && <button className="button is-primary" onClick={openDetails(car)}>
+                        {authCtx.isLoggedIn && <button className="button is-primary" onClick={openDetails(car.id)}>
                             <strong>Reserve</strong>
-                        </button>} */}
-                        {isAdmin && <button className="button is-primary" onClick={goToEditCarForm(car.id)}>Edit car</button>}
-                        {isAdmin && <button className="button is-danger" onClick={deleteCarHandler(car.id)}>Delete car</button>}
+                        </button>}
+                        {authCtx.role == 'admin' && <button className="button is-primary" onClick={goToEditCarForm(car.id)}>Edit car</button>}
+                        {authCtx.role == 'admin' && <button className="button is-danger" onClick={deleteCarHandler(car.id)}>Delete car</button>}
                     </div>
                 </div>
             ))}

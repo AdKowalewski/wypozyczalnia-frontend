@@ -18,14 +18,18 @@ const HeaderComponent = () => {
 
     const navigate = useNavigate();
 
+    const adminPanel = () => {
+        navigate("/adminPanel");
+    };
+
     const signUp = () => {
         navigate("/users/register");
-        window.location.reload();
+        //window.location.reload();
     };
 
     const logIn = () => {
         navigate("/users/login");
-        window.location.reload();
+        //window.location.reload();
     };
 
     const logOut = () => {
@@ -33,7 +37,7 @@ const HeaderComponent = () => {
         //localStorage.removeItem('role');
         authCtx.onLogout();
         navigate('/');
-        window.location.reload();
+        //window.location.reload();
     }
 
     return (
@@ -41,10 +45,13 @@ const HeaderComponent = () => {
             <div className="navbar-end">
                 <div className="navbar-item">
                     <div className="buttons">
+                        {authCtx.role == 'admin' && <a className="button is-primary" onClick={adminPanel}>
+                            <strong>Admin Panel</strong>
+                        </a>}
                         <a className="button is-primary" onClick={signUp}>
                             <strong>Sign up</strong>
                         </a>
-                        {isLoggedIn 
+                        {authCtx.isLoggedIn 
                             ? <a className="button is-light" onClick={logOut}>Log out</a> 
                             : <a className="button is-light" onClick={logIn}>Log in</a>
                         }

@@ -1,20 +1,21 @@
 import React, { useContext } from "react";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-//import AuthContext from '../context/Auth';
+import { useLocation, Outlet } from "react-router-dom";
+import AuthContext from '../context/Auth';
+import Unauthorized from "./Unauthorized";
 
 const RequireAuth = (props) => {
-    const location = useLocation();
+    //const location = useLocation();
 
-    //const authCtx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext);
 
-    const role = localStorage.getItem('role');
+    //const role = localStorage.getItem('role');
 
     return (
         <>
-            {/* {authCtx.isLoggedIn && authCtx.role == props.allowedRole */
-            role == props.allowedRole
+            {authCtx.isLoggedIn && authCtx.role == props.allowedRole
+            // role == props.allowedRole
                 ? <Outlet />
-                : <Navigate to='/unauthorized' state={{ from: location }} replace />}
+                : <Unauthorized />}
         </>
     );
 }
