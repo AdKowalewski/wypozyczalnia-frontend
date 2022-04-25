@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './loader.css';
 import 'bulma/css/bulma.min.css';
 
 const API_URL = 'http://127.0.0.1:8000';
@@ -59,14 +58,6 @@ const SignUp = () => {
             setLoading(false);
         } catch (err) {
             console.log(err);
-            // if (!err) {
-            //     setErrMsg('No Server Response');
-            // } else if (err.response.status === 409) {
-            //     setErrMsg('Username Taken');
-            // } else {
-            //     setErrMsg('Registration Failed')
-            // }
-            // errRef.current.focus();
         }
     }
 
@@ -139,7 +130,7 @@ const SignUp = () => {
                         <button type='submit'>Sign Up</button>
                         {!loading 
                             ? null
-                            : <span className="loader-mixin"></span>}
+                            : <span>...</span>}
                         <br/>
                         <button type='button' onClick={handleCancel}>Go back</button>
                     </form>

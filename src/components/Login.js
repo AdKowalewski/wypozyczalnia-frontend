@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './loader.css';
 import 'bulma/css/bulma.min.css';
 import jwt from 'jwt-decode';
 import AuthContext from '../context/Auth';
@@ -51,21 +50,10 @@ const Login = () => {
             setEmail('');
             setPassword('');
             setLoading(false);
+            navigate('/');
         } catch (err) {
             console.log(err);
-            // if (!err) {
-            //     setErrMsg('No Server Response');
-            // } else 
-            // if (err.response.status === 400) {
-            //     setErrMsg('Missing Username or Password');
-            // } else if (err.response.status === 401) {
-            //     setErrMsg('Unauthorized');
-            // } else {
-            //     setErrMsg('Login Failed');
-            // }
-            // errRef.current.focus();
         }
-        navigate('/');
     }
 
     const handleCancel = () => {
@@ -103,7 +91,7 @@ const Login = () => {
                 <button type='submit'>Sign In</button>
                 {!loading 
                     ? null
-                    : <span className="loader-mixin"></span>}
+                    : <span>.....</span>}
                 <br/>
                 <button type='button' onClick={handleCancel}>Go back</button>
             </form>

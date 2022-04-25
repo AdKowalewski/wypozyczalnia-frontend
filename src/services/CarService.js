@@ -7,6 +7,10 @@ const getCars = (offset) => {
     return axios.get(API_URL + "?offset=" + offset);
 }
 
+const getCarById = (car_id) => {
+    return axios.get(API_URL + `/${car_id}`, {'car_id': car_id});
+};
+
 const createCar = (brand, model, description, img, price) => {
     return axios.post(API_URL, {'brand': brand, 'model': model, 'description': description, 'img': img, 'price': price}, {
         headers: AuthHeader()
@@ -20,13 +24,14 @@ const editCar = (brand, model, description, img, price) => {
 };
 
 const deleteCarById = (car_id) => {
-    return axios.delete(API_URL + '/' + {car_id}, {'car_id': car_id}, {
+    return axios.delete(API_URL + `/${car_id}`, {'car_id': car_id}, {
         headers: AuthHeader()
     });
 };
 
 const CarService = {
     getCars,
+    getCarById,
     createCar,
     editCar,
     deleteCarById

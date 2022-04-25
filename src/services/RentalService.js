@@ -4,7 +4,7 @@ import AuthHeader from "./AuthHeader";
 const API_URL = "http://127.0.0.1:8000/rentals";
 
 const getRentalsByCarId = (car_id) => {
-    return axios.get(API_URL + '/car/' + {car_id}, {'car_id': car_id});
+    return axios.get(API_URL + `/car/${car_id}`, {'car_id': car_id});
 };
 
 const getRentalsByUser = () => {
@@ -26,7 +26,7 @@ const changeRental = async (rental_start, rental_end, car_id) => {
 };
 
 const stopRental = async (rental_id) => {
-    return await axios.patch(API_URL + '/' + {rental_id}, {'rental_id': rental_id}, {
+    return await axios.patch(API_URL + `/${rental_id}`, {'rental_id': rental_id}, {
         headers: AuthHeader()
     });
 };

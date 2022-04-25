@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import 'bulma/css/bulma.min.css';
 import RentalService from '../services/RentalService';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
 
     const [rentals, setRentals] = useState([]);
+    const navigate = useNavigate();
 
     const disableButton = (end_date) => {
         let today = new Date();
-        if (today >= end_date) {
+        if (today >= new Date(end_date)) {
             return true;
         } else {
             return false;
@@ -28,13 +30,18 @@ const UserProfile = () => {
         });
     }, []);
 
+    const goToEditUserForm = (user_id) => {
+        navigate(`/editProfile/${user_id}`);
+    };
+
     return (
         <div>
-            {/* <h2>Rentals of User <b>{userEmail}</b></h2> */}
-            <h2>Rentals of User</h2>
+            <a className="button is-primary" onClick={goToEditUserForm}>Edit profile</a>
             <br/>
-            <div class="table-container">
-                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <h2>Your Rentals</h2>
+            <br/>
+            <div className="table-container">
+                <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                     <thead>
                         <th>Rental ID</th>
                         <th>Start date</th>
@@ -55,7 +62,7 @@ const UserProfile = () => {
                                 <td>{rental.total_price}</td>
                                 <td>
                                     <button 
-                                        class="button is-danger" 
+                                        className="button is-danger" 
                                         disabled={disableButton(rental.rental_end)} 
                                         onClick={stopRental(rental.id)}
                                     >

@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/Auth';
 
 const HeaderComponent = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const authCtx = useContext(AuthContext);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if(token) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if(token) {
+    //         setIsLoggedIn(true);
+    //     } else {
+    //         setIsLoggedIn(false);
+    //     }
+    // }, []);
 
     const navigate = useNavigate();
 
@@ -24,20 +24,16 @@ const HeaderComponent = () => {
 
     const signUp = () => {
         navigate("/users/register");
-        //window.location.reload();
     };
 
     const logIn = () => {
         navigate("/users/login");
-        //window.location.reload();
     };
 
     const logOut = () => {
-        //localStorage.removeItem('token');
-        //localStorage.removeItem('role');
         authCtx.onLogout();
         navigate('/');
-        //window.location.reload();
+        window.location.reload();
     }
 
     return (
@@ -51,10 +47,11 @@ const HeaderComponent = () => {
                         <a className="button is-primary" onClick={signUp}>
                             <strong>Sign up</strong>
                         </a>
-                        {authCtx.isLoggedIn 
+                        {authCtx.isLoggedIn
                             ? <a className="button is-light" onClick={logOut}>Log out</a> 
                             : <a className="button is-light" onClick={logIn}>Log in</a>
                         }
+                        {/* <a className="button is-light" onClick={logOut}>Awaryjny log out</a>  */}
                     </div>
                 </div>
             </div>

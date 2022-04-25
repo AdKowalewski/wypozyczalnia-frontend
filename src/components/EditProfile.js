@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListOfUsers = () => {
+const EditProfile = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const ListOfUsers = () => {
     );
 };
 
-export default ListOfUsers;
+export default EditProfile;

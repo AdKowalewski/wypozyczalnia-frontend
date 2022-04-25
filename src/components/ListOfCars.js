@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CarService from '../services/CarService';
 import AuthContext from '../context/Auth';
+import 'bulma/css/bulma.min.css';
 
 const ListOfCars = () => {
     // const initialCars = [
@@ -17,6 +18,16 @@ const ListOfCars = () => {
     const authCtx = useContext(AuthContext);
 
     const [cars, setCars] = useState([]);
+    //const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if(token) {
+    //         setIsLoggedIn(true);
+    //     } else {
+    //         setIsLoggedIn(false);
+    //     }
+    // }, []);
 
     const openDetails = (car_id) => {
         navigate(`/cars/${car_id}`);
@@ -36,7 +47,7 @@ const ListOfCars = () => {
     };
 
     const goToEditCarForm = (car_id) => {
-        navigate(`/addCar/${car_id}`);
+        navigate(`/editCar/${car_id}`);
     };
 
     const goToAddCarForm = () => {
@@ -63,14 +74,11 @@ const ListOfCars = () => {
                         <div className="content">
                             Price for 1 day: {car.price}zł
                         </div>
-                        <button className="button is-primary" onClick={null}>
+                        {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
                             <strong>Reserve</strong>
-                        </button>
-                        {authCtx.isLoggedIn && <button className="button is-primary" onClick={openDetails(car.id)}>
-                            <strong>Reserve</strong>
-                        </button>}
-                        {authCtx.role == 'admin' && <button className="button is-primary" onClick={goToEditCarForm(car.id)}>Edit car</button>}
-                        {authCtx.role == 'admin' && <button className="button is-danger" onClick={deleteCarHandler(car.id)}>Delete car</button>}
+                        </a>}
+                        {authCtx.role == 'admin' && <a className="button is-primary" onClick={goToEditCarForm}>Edit car</a>}
+                        {authCtx.role == 'admin' && <a className="button is-danger" onClick={deleteCarHandler}>Delete car</a>}
                     </div>
                 </div>
             ))}
