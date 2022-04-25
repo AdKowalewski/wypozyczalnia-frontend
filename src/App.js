@@ -30,6 +30,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRole='regular_user'/>}>
           <Route path='/profile/:id' element={<UserProfile/>} />
+          <Route path='/editProfile/:id' element={<EditProfile/>} />
           <Route path='/cars/:car_id' element={<CarDetails/>} />
         </Route>
 
