@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CarService from '../services/CarService';
 import AuthContext from '../context/Auth';
 import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 
 const ListOfCars = () => {
     // const initialCars = [
@@ -43,6 +44,7 @@ const ListOfCars = () => {
     const deleteCarHandler = (car_id) => {
         return CarService.deleteCarById(car_id).then((res) => {
             console.log(res);
+            setCars(cars.filter((car) => car.id !== car_id));
         })
     };
 
@@ -55,7 +57,7 @@ const ListOfCars = () => {
     };
 
     return (
-        <div>
+        <div className='container'>
             {authCtx.role == 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
             {cars.map(car => (
                 <div key={car.id}>
@@ -77,8 +79,8 @@ const ListOfCars = () => {
                         {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
                             <strong>Reserve</strong>
                         </a>}
-                        {authCtx.role == 'admin' && <a className="button is-primary" onClick={goToEditCarForm}>Edit car</a>}
-                        {authCtx.role == 'admin' && <a className="button is-danger" onClick={deleteCarHandler}>Delete car</a>}
+                        {authCtx.role == 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
+                        {authCtx.role == 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
                     </div>
                 </div>
             ))}

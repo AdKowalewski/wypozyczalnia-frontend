@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import CarService from '../services/CarService';
 import 'bulma/css/bulma.min.css';
 import { useNavigate } from 'react-router-dom';
+import FileBase64 from 'react-file-base64';
 
 const AddCar = () => {
 
@@ -16,7 +17,6 @@ const AddCar = () => {
     const brandRef = useRef();
     const modelRef = useRef();
     const descriptionRef = useRef();
-    const imgRef = useRef();
     const priceRef = useRef();
 
     const handleSubmit = async (e) => {
@@ -33,6 +33,10 @@ const AddCar = () => {
         } catch (err) {
             console.log(err);
         }
+    };
+
+    const encodeImage = (image) => {
+        setImg(image);
     };
 
     const handleCancel = () => {
@@ -77,14 +81,15 @@ const AddCar = () => {
                 <br/>
                 <label htmlFor="img">Image:</label>
                 <br/>
-                <input
+                <FileBase64 multiple={ false } onDone={encodeImage} />
+                {/* <input
                     type="file"
                     id="img"
                     onChange={(e) => setImg(e.target.files[0])}
                     ref={imgRef}
                     value={img}
                     required
-                />
+                /> */}
                 <br/>
                 <label htmlFor="price">Price:</label>
                 <br/>

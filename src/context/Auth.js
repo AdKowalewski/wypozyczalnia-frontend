@@ -10,14 +10,16 @@ export const AuthContext = React.createContext({
 
 export const AuthProvider = (props) => {
     const [token, setToken] = useState(null);
+    const [id, setId] = useState(null);
     const [role, setRole] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         const isToken = localStorage.getItem('token');
         return isToken !== null;
     });
 
-    const onLogin = ({ token, role }) => {
+    const onLogin = ({ token, id, role }) => {
         setToken(token);
+        setId(id);
         setRole(role);
         setIsLoggedIn(true);
         localStorage.setItem('token', token);
@@ -25,7 +27,9 @@ export const AuthProvider = (props) => {
 
     const onLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
         setToken(null);
+        setId(null);
         setRole(null);
         setIsLoggedIn(false);
     };
@@ -33,6 +37,7 @@ export const AuthProvider = (props) => {
     let contextValue = {
         isLoggedIn: isLoggedIn,
         token: token,
+        id: id,
         role: role,
         onLogin: onLogin,
         onLogout: onLogout

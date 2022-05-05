@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import RentalService from '../services/RentalService';
 import CarService from '../services/CarService';
 import DatePicker from 'react-datepicker';
-import 'bulma/css/bulma.min.css';
 import "react-datepicker/dist/react-datepicker.css";
+import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const API_URL = "http://127.0.0.1:8000/";
@@ -105,7 +106,7 @@ const CarDetails = () => {
     }
 
     return (
-        <div className={{justifyContent: 'center'}}>
+        <div className='container'>
             <figure className="image is-128x128">
                 <img src={API_URL + image}/>
             </figure>

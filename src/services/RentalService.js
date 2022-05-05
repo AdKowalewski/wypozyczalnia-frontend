@@ -19,8 +19,8 @@ const createRental = (rental_start, rental_end, car_id) => {
     });
 };
 
-const changeRental = async (rental_start, rental_end, car_id) => {
-    return await axios.patch(API_URL, {'rental_start': rental_start, 'rental_end': rental_end, 'car_id': car_id}, {
+const changeRental = async (rental_start, rental_end) => {
+    return await axios.patch(API_URL, {'rental_start': rental_start, 'rental_end': rental_end}, {
         headers: AuthHeader()
     });
 };

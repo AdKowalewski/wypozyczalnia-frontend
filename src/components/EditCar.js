@@ -2,55 +2,54 @@ import React, { useRef, useEffect, useState } from 'react';
 import CarService from '../services/CarService';
 import 'bulma/css/bulma.min.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import FileBase64 from 'react-file-base64';
 
 const EditCar = () => {
 
     const navigate = useNavigate();
     const { car_id } = useParams();
 
-    const oldBrand = '';
-    const oldModel = '';
-    const oldDescription = '';
-    const oldImg = '';
-    const oldPrice = '';
-
-    useEffect(() => {
-        CarService.getCarById(car_id).then((res) => {
-            console.log(res.data);
-            oldImg = res.data.img;
-            oldBrand = res.data.brand;
-            oldModel = res.data.model;
-            oldDescription = res.data.description;
-            oldPrice = res.data.price;
-        });
-    }, []);
-
-    const [brand, setBrand] = useState(oldBrand);
-    const [model, setModel] = useState(oldModel);
-    const [description, setDescription] = useState(oldDescription);
-    const [img, setImg] = useState(oldImg);
-    const [price, setPrice] = useState(oldPrice);
+    const [brand, setBrand] = useState('');
+    const [model, setModel] = useState('');
+    const [description, setDescription] = useState('');
+    const [img, setImg] = useState('');
+    const [price, setPrice] = useState('');
 
     const brandRef = useRef();
     const modelRef = useRef();
     const descriptionRef = useRef();
-    const imgRef = useRef();
     const priceRef = useRef();
+
+    useEffect(() => {
+        CarService.getCarById(car_id).then((res) => {
+            console.log(res.data);
+            setImg(res.data.img);
+            setBrand(res.data.brand);
+            setModel(res.data.model);
+            setDescription(res.data.description);
+            setPrice(res.data.price);
+        });
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await CarService.createCar(brand, model, description, img, price);
+            const response = await CarService.editCar(brand, model, description, img, price);
             console.log(JSON.stringify(response.data));
             setBrand(brand);
             setModel(model);
             setDescription(description);
             setImg(img);
             setPrice(price);
+            navigate(-1);
         } catch (err) {
             console.log(err);
         }
+    };
+
+    const encodeImage = (image) => {
+        setImg(image);
     };
 
     const handleCancel = () => {
@@ -95,14 +94,15 @@ const EditCar = () => {
                 <br/>
                 <label htmlFor="img">Image:</label>
                 <br/>
-                <input
+                <FileBase64 multiple={ false } onDone={encodeImage} />
+                {/* <input
                     type="file"
                     id="img"
                     onChange={(e) => setImg(e.target.files[0])}
                     ref={imgRef}
                     value={img}
                     required
-                />
+                /> */}
                 <br/>
                 <label htmlFor="price">Price:</label>
                 <br/>

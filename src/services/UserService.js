@@ -9,6 +9,10 @@ const getUsers = (skip = 0, limit = 100) => {
     });
 };
 
+const getUserById = (user_id) => {
+    return axios.get(API_URL + `/${user_id}`, {'user_id': user_id});
+};
+
 const editUser = (email, name, surname, password) => {
     return axios.post(API_URL, {'email': email, 'name': name, 'surname': surname, 'password': password}, {
         headers: AuthHeader()
@@ -29,6 +33,7 @@ const deleteUserById = (user_id) => {
 
 const UserService = {
     getUsers,
+    getUserById,
     editUser,
     deleteUsers,
     deleteUserById

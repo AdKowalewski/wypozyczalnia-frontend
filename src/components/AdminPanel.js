@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import UserService from '../services/UserService';
 import 'bulma/css/bulma.min.css';
 
 const AdminPanel = () => {
 
     const [users, setUsers] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         UserService.getUsers().then((res) => {
@@ -15,28 +13,24 @@ const AdminPanel = () => {
         });
     }, []);
 
-    const handleCancel = () => {
-        navigate(-1);
-    };
-
-    const deleteUsersHandler = async (e) => {
-        e.preventDefault();
+    const deleteUsersHandler = () => {
 
         try {
-            await UserService.deleteUsers().then((res) => {
+            UserService.deleteUsers().then((res) => {
                 console.log(res.data);
+                setUsers([]);
             });
         } catch (err) {
             console.log(err);
         }
     };
 
-    const deleteUserByIdHandler = async (e, user_id) => {
-        e.preventDefault();
+    const deleteUserByIdHandler = (user_id) => {
 
         try {
-            await UserService.deleteUser(user_id).then((res) => {
+            UserService.deleteUserById(user_id).then((res) => {
                 console.log(res.data);
+                setUsers(users.filter((user) => user.id !== user_id));
             });
         } catch (err) {
             console.log(err);
@@ -77,8 +71,6 @@ const AdminPanel = () => {
                     </tbody>
                 </table>
             </div>
-            <br/>
-            <button onClick={handleCancel}>Go to home page</button>
         </div>
     );
 };

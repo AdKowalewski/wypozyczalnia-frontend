@@ -46,7 +46,9 @@ const Login = () => {
             const token = response.data.token;
             const user = jwt(token);
             const roles = user.role;
-            authCtx.onLogin({token: token, role: roles});
+            const user_ID = user.id;
+            localStorage.setItem('user_id', user_ID);
+            authCtx.onLogin({token: token, id: user_ID, role: roles});
             setEmail('');
             setPassword('');
             setLoading(false);

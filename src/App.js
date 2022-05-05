@@ -15,6 +15,7 @@ import UserProfile from './components/UserProfile';
 import CarDetails from './components/CarDetails';
 import EditCar from './components/EditCar';
 import EditRental from './components/EditRental';
+import EditProfile from './components/EditProfile';
 
 function App() {
 
@@ -27,9 +28,9 @@ function App() {
         <Route path='/users/register' element={<SignUp/>} />
         <Route path='/users/login' element={<Login/>} />
         <Route path='/unauthorized' element={<Unauthorized/>} />
+        <Route path='/profile/:id' element={<UserProfile/>} />
 
         <Route element={<RequireAuth allowedRole='regular_user'/>}>
-          <Route path='/profile/:id' element={<UserProfile/>} />
           <Route path='/editProfile/:id' element={<EditProfile/>} />
           <Route path='/cars/:car_id' element={<CarDetails/>} />
         </Route>

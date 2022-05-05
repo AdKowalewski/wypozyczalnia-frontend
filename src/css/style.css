@@ -1,0 +1,23 @@
+body {
+    justify-content: center;
+}
+
+.container {
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 50%;
+    margin: 20px;
+    position: relative;
+}
+
+.logo {
+    margin: 20px;
+    padding: 10px;
+}
+
+.button {
+    margin: 4px;
+}
