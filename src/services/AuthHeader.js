@@ -3,7 +3,7 @@ export default function AuthHeader() {
     //const authCtx = useContext(AuthContext);
   
     if (token) {
-      return { Authorization: 'Bearer ' + token };
+      return { 'Authorization': 'Bearer ' + token };
     } else {
       return {};
     }

@@ -57,10 +57,10 @@ const ListOfCars = () => {
     };
 
     return (
-        <div className='container'>
-            {authCtx.role == 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
+        <div>
+            {authCtx.role === 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
             {cars.map(car => (
-                <div key={car.id}>
+                <div className='container' key={car.id}>
                     <div className='card'>
                         <div className='card-image'>
                             <figure className="image is-4by3">
@@ -79,8 +79,8 @@ const ListOfCars = () => {
                         {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
                             <strong>Reserve</strong>
                         </a>}
-                        {authCtx.role == 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
-                        {authCtx.role == 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
+                        {authCtx.role === 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
+                        {authCtx.role === 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
                     </div>
                 </div>
             ))}

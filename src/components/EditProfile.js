@@ -49,51 +49,80 @@ const EditProfile = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
+                <div className='field'>
+                    <label className='label' htmlFor="name">Name:</label>
+                    <div className='control'>
+                        <input
+                            className='input'
+                            type="text"
+                            id="name"
+                            onChange={(e) => setName(e.target.value)}
+                            ref={nameRef}
+                            value={name}
+                            required
+                            placeholder='Name'
+                        />
+                    </div>
+                </div>
+
+                <div className='field'>
+                    <label className='label' htmlFor="surname">Surname:</label>
+                    <div className='control'>
+                        <input
+                            className='input'
+                            type="text"
+                            id="surname"
+                            onChange={(e) => setSurname(e.target.value)}
+                            ref={surnameRef}
+                            value={surname}
+                            required
+                            placeholder='Surname'
+                        />
+                    </div>
+                </div>
+                <div className='field'>
+                    <label className='label' htmlFor="email">Email:</label>
+                    <p className="control has-icons-left has-icons-right">
+                        <input
+                            className='input'
+                            type="text"
+                            id="email"
+                            ref={emailRef}
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            placeholder='Email'
+                            required
+                        />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-envelope"></i>
+                        </span>
+                        <span className="icon is-small is-right">
+                            <i className="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+
+                <div className='field'>
+                    <label className='label' htmlFor="password">Password:</label>
+                    <p className="control has-icons-left">
+                        <input
+                            className='input'
+                            type="password"
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            ref={passwordRef}
+                            value={password}
+                            required
+                            placeholder='Password'
+                            // validations={[vpassword]}
+                        />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
                 <br/>
-                <input
-                    type="text"
-                    id="name"
-                    onChange={(e) => setName(e.target.value)}
-                    ref={nameRef}
-                    value={name}
-                    required
-                />
-                <br/>
-                <label htmlFor="surname">Surname:</label>
-                <br/>
-                <input
-                    type="text"
-                    id="surname"
-                    onChange={(e) => setSurname(e.target.value)}
-                    ref={surnameRef}
-                    value={surname}
-                    required
-                />
-                <br/>
-                <label htmlFor="email">Email:</label>
-                <br/>
-                <input
-                    type="text"
-                    id="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    ref={emailRef}
-                    value={email}
-                    required
-                />
-                <br/>
-                <label htmlFor="password">Password:</label>
-                <br/>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    ref={passwordRef}
-                    value={password}
-                    required
-                />
-                <br/>
-                <button type='submit'>Edit profile</button>
+                <button className="button is-primary" type='submit'>Edit profile</button>
             </form>
             <br/>
             <button onClick={handleCancel}>Go back</button> 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AuthContext from '../context/Auth';
 import Unauthorized from "./Unauthorized";
 
@@ -12,7 +12,7 @@ const RequireAuth = (props) => {
 
     return (
         <>
-            {authCtx.isLoggedIn && authCtx.role == props.allowedRole
+            {authCtx.isLoggedIn && authCtx.role === props.allowedRole
             // role == props.allowedRole
                 ? <Outlet />
                 : <Unauthorized />}

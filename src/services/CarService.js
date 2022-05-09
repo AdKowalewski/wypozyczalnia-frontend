@@ -12,6 +12,7 @@ const getCarById = (car_id) => {
 };
 
 const createCar = (brand, model, description, img, price) => {
+    console.log(`{'brand': ${brand}, 'model': ${model}, 'description': ${description}, 'img': ${img}, 'price': ${price}}`);
     return axios.post(API_URL, {'brand': brand, 'model': model, 'description': description, 'img': img, 'price': price}, {
         headers: AuthHeader()
     });
@@ -24,7 +25,7 @@ const editCar = (brand, model, description, img, price) => {
 };
 
 const deleteCarById = (car_id) => {
-    return axios.delete(API_URL + `/${car_id}`, {'car_id': car_id}, {
+    return axios.delete(API_URL + `/${car_id}`, {
         headers: AuthHeader()
     });
 };

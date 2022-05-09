@@ -3,22 +3,17 @@ import 'bulma/css/bulma.min.css';
 import RentalService from '../services/RentalService';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../services/UserService';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 
 const UserProfile = () => {
 
-    const [rentals, setRentals] = useState([]);
+    const [activeRentals, setActiveRentals] = useState([]);
+    const [unpaidRentals, setUnpaidRentals] = useState([]);
     const navigate = useNavigate();
 
     const { id } = useParams();
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-
-    const [isDatePickerShown, setIsDatePickerShown] = useState(false);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
 
     const disableButton = (end_date) => {
         let today = new Date();
@@ -33,18 +28,6 @@ const UserProfile = () => {
         return RentalService.stopRental(rental_id).then((res) => {
             console.log(res);
         });
-    };
-
-    const handleRentalChange = () => {
-        const start = formatDate(startDate);
-        const end = formatDate(endDate);
-        RentalService.changeRental(start, end).then(res => console.log(res));
-    };
-
-    const datePickerChangeHandler = (dates) => {
-        const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
     };
 
     const formatDate = (date) => {
@@ -70,18 +53,31 @@ const UserProfile = () => {
     }, []);
 
     useEffect(() => {
-        RentalService.getRentalsByUser().then((res) => {
-            console.log(res);
-            setRentals(res.data);
+        RentalService.getUserActiveRentals().then((res) => {
+            console.log(res.data);
+            setActiveRentals(res.data);
         });
     }, []);
 
-    const goToEditUserForm = (user_id) => {
-        navigate(`/editProfile/${user_id}`);
+    useEffect(() => {
+        RentalService.getUserUnpaidRentals().then((res) => {
+            console.log(res.data);
+            setUnpaidRentals(res.data);
+        });
+    }, []);
+
+    const deleteUserHandler = () => {
+        try {
+            UserService.deleteUser().then((res) => {
+                console.log(res.data);
+            });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    const toggleDatePicker = () => {
-        setIsDatePickerShown(!isDatePickerShown);
+    const goToEditUserForm = (user_id) => {
+        navigate(`/editProfile/${user_id}`);
     };
 
     return (
@@ -89,8 +85,10 @@ const UserProfile = () => {
             <h1><strong>{name + ' ' + surname}</strong></h1>
             <br/>
             <a className="button is-primary" onClick={() => goToEditUserForm(id)}>Edit profile</a>
+            <br/>
+            <a className="button is-danger" onClick={deleteUserHandler}>Delete account</a>
             <br/><br/>
-            <h2>My Rentals:</h2>
+            <h2>My Active Rentals:</h2>
             <br/>
             <div className="table-container">
                 <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
@@ -104,7 +102,7 @@ const UserProfile = () => {
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        {rentals.map(rental => (
+                        {activeRentals.map(rental => (
                             <tr key={rental.id}>
                                 <td>{rental.id}</td>
                                 <td>{rental.rental_start}</td>
@@ -113,32 +111,48 @@ const UserProfile = () => {
                                 <td>{rental.car.model}</td>
                                 <td>{rental.total_price}</td>
                                 <td>
-                                    {!isDatePickerShown 
-                                        ? <button className="button is-primary" onClick={toggleDatePicker}>Change Rental</button> 
-                                        : <button onClick={toggleDatePicker}>Cancel</button>}
-                                    {isDatePickerShown && 
-                                        <DatePicker 
-                                            dateFormat="yyyy/dd/MM"
-                                            selected={startDate} 
-                                            closeOnScroll={true}
-                                            placeholderText='Click here'
-                                            //excludeDates={getDisabledDates}
-                                            onChange={datePickerChangeHandler}
-                                            selectsRange
-                                        />
-                                    }
-                                    {!isDatePickerShown 
-                                        ?   <button 
-                                                className="button is-danger" 
-                                                disabled={disableButton(rental.rental_end)} 
-                                                onClick={() => stopRental(rental.id)}>
-                                                    Stop Rental
-                                            </button>
-                                        :   <button 
-                                                className="button is-primary" 
-                                                onClick={handleRentalChange}>
-                                                    Change Rental
-                                            </button>}
+                                    <button 
+                                        className="button is-danger" 
+                                        disabled={disableButton(rental.rental_end)} 
+                                        onClick={() => stopRental(rental.id)}>
+                                            Stop Rental
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <br/><br/>
+            <h2>My Unpaid Rentals:</h2>
+            <br/>
+            <div className="table-container">
+                <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                    <thead>
+                        <th>Rental ID</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Total price</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {unpaidRentals.map(rental => (
+                            <tr key={rental.id}>
+                                <td>{rental.id}</td>
+                                <td>{rental.rental_start}</td>
+                                <td>{rental.rental_end}</td>
+                                <td>{rental.car.brand}</td>
+                                <td>{rental.car.model}</td>
+                                <td>{rental.total_price}</td>
+                                <td>
+                                    <button 
+                                        className="button is-danger" 
+                                        disabled={disableButton(rental.rental_end)} 
+                                        onClick={() => stopRental(rental.id)}>
+                                            Stop Rental
+                                    </button>
                                 </td>
                             </tr>
                         ))}

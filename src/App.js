@@ -16,6 +16,7 @@ import CarDetails from './components/CarDetails';
 import EditCar from './components/EditCar';
 import EditRental from './components/EditRental';
 import EditProfile from './components/EditProfile';
+import UserRentals from './components/UserRentals';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRole='admin'/>}>
           <Route path='/adminPanel' element={<AdminPanel/>} />
+          <Route path='/userRentals/:id' element={<UserRentals/>} />
           <Route path='/addCar' element={<AddCar/>} />
           <Route path='/editCar/:car_id' element={<EditCar/>} />
           <Route path='/editRental/:rental_id' element={<EditRental/>} />

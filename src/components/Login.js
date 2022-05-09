@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 import jwt from 'jwt-decode';
 import AuthContext from '../context/Auth';
 
@@ -65,36 +66,55 @@ const Login = () => {
     return (
         <section>
             <p ref={errRef} style={errMsg ? {color: 'red'} : {display: 'none'}} aria-live="assertive">{errMsg}</p>
-            <h1>Sign In</h1>
+            <h1><strong>Sign In</strong></h1>
+            <br/>
             <form onSubmit={handleLogin}>
-                <label htmlFor="email">Email:</label>
-                <br/>
-                <input 
-                    type='email' 
-                    id='email'
-                    placeholder='email'
-                    required
-                    ref={emailRef}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <br/>
+                <div className='field'>
+                    <label className='label' htmlFor="email">Email:</label>
+                    <p className="control has-icons-left has-icons-right">
+                        <input
+                            className='input'
+                            type="text"
+                            id="email"
+                            ref={emailRef}
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            placeholder='Email'
+                            required
+                        />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-envelope"></i>
+                        </span>
+                        <span className="icon is-small is-right">
+                            <i className="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
 
-                <label htmlFor="password">Password:</label>
+                <div className='field'>
+                    <label className='label' htmlFor="password">Password:</label>
+                    <p className="control has-icons-left">
+                        <input
+                            className='input'
+                            type="password"
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            required
+                            placeholder='Password'
+                            // validations={[vpassword]}
+                        />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
                 <br/>
-                <input 
-                    type='password' 
-                    id='password'
-                    placeholder='password' 
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <br/><br/>
-                <button type='submit'>Sign In</button>
+                <button className="button is-primary" type='submit'>Sign In</button>
                 {!loading 
                     ? null
                     : <span>.....</span>}
-                <br/>
+                <br/><br/>
                 <button type='button' onClick={handleCancel}>Go back</button>
             </form>
             <p>

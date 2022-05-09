@@ -10,8 +10,16 @@ export const AuthContext = React.createContext({
 
 export const AuthProvider = (props) => {
     const [token, setToken] = useState(null);
-    const [id, setId] = useState(null);
-    const [role, setRole] = useState(null);
+    const [id, setId] = useState(() => {
+        const isToken = localStorage.getItem('token');
+        if (isToken) return id;
+        else return null;
+    });
+    const [role, setRole] = useState(() => {
+        const isToken = localStorage.getItem('token');
+        if (isToken) return role;
+        else return null;
+    });
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         const isToken = localStorage.getItem('token');
         return isToken !== null;

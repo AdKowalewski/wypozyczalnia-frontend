@@ -19,14 +19,14 @@ const editUser = (email, name, surname, password) => {
     });
 };
 
-const deleteUsers = () => {
+const deleteUser = () => {
     return axios.delete(API_URL, {
         headers: AuthHeader()
     });
 };
 
 const deleteUserById = (user_id) => {
-    return axios.delete(API_URL + `/${user_id}`, {'user_id': user_id}, {
+    return axios.delete(API_URL + `/${user_id}`, {
         headers: AuthHeader()
     });
 };
@@ -35,7 +35,7 @@ const UserService = {
     getUsers,
     getUserById,
     editUser,
-    deleteUsers,
+    deleteUser,
     deleteUserById
 };
 

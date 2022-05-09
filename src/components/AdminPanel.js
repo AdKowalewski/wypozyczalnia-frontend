@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../services/UserService';
 import 'bulma/css/bulma.min.css';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
 
     const [users, setUsers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         UserService.getUsers().then((res) => {
@@ -12,18 +14,6 @@ const AdminPanel = () => {
             setUsers(res.data);
         });
     }, []);
-
-    const deleteUsersHandler = () => {
-
-        try {
-            UserService.deleteUsers().then((res) => {
-                console.log(res.data);
-                setUsers([]);
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     const deleteUserByIdHandler = (user_id) => {
 
@@ -36,14 +26,16 @@ const AdminPanel = () => {
             console.log(err);
         }
     };
+
+    const goToUserRentals = (user_id) => {
+        navigate(`/userRentals/${user_id}`);
+    };
  
     return (
         <div>
             <h2>ADMINISTRATION PANEL</h2>
             <br/>
             <h3>List of users</h3>
-            <br/>
-            <a className="button is-danger" onClick={deleteUsersHandler}>Delete all users</a>
             <br/>
             <div className="table-container">
                 <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
@@ -62,6 +54,9 @@ const AdminPanel = () => {
                                 <td>{user.surname}</td>
                                 <td>{user.email}</td>
                                 <td>
+                                    <button className="button is-primary" onClick={() => goToUserRentals(user.id)}>
+                                        User rentals
+                                    </button>
                                     <button className="button is-danger" onClick={() => deleteUserByIdHandler(user.id)}>
                                         Delete user
                                     </button>
