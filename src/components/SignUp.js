@@ -2,31 +2,32 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 
 const API_URL = 'http://127.0.0.1:8000';
 
-const vpassword = value => {
-    if (value.length < 6 || value.length > 40) {
-      return (
-        <div className="notification is-danger" role="alert">
-            <button className="delete"></button>
-            The password must be between 6 and 40 characters!
-        </div>
-      );
-    }
-};
+// const vpassword = value => {
+//     if (value.length < 6 || value.length > 40) {
+//       return (
+//         <div className="notification is-danger" role="alert">
+//             <button className="delete"></button>
+//             The password must be between 6 and 40 characters!
+//         </div>
+//       );
+//     }
+// };
 
 const SignUp = () => {
     const emailRef = useRef();
     const nameRef = useRef();
     const surnameRef = useRef();
-    const errRef = useRef();
+    //const errRef = useRef();
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+    // const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -76,62 +77,89 @@ const SignUp = () => {
                 </section>
             ) : (
                 <section>
-                    <p ref={errRef} style={errMsg ? {color: 'red'} : {display: 'none'}} aria-live="assertive">{errMsg}</p>
-                    <h1>Sign Up</h1>
+                    {/* <p ref={errRef} style={errMsg ? {color: 'red'} : {display: 'none'}} aria-live="assertive">{errMsg}</p> */}
+                    <h1><strong>Sign Up</strong></h1>
+                    <br/>
                     <form onSubmit={handleSignUp}>
-                        <label htmlFor="name">Name:</label>
-                        <br/>
-                        <input
-                            type="text"
-                            id="name"
-                            onChange={(e) => setName(e.target.value)}
-                            ref={nameRef}
-                            value={name}
-                            required
-                        />
-                        <br/>
+                        <div className='field'>
+                            <label className='label' htmlFor="name">Name:</label>
+                            <div className='control'>
+                                <input
+                                    className='input'
+                                    type="text"
+                                    id="name"
+                                    onChange={(e) => setName(e.target.value)}
+                                    ref={nameRef}
+                                    value={name}
+                                    required
+                                    placeholder='Name'
+                                />
+                            </div>
+                        </div>
 
-                        <label htmlFor="surname">Surname:</label>
-                        <br/>
-                        <input
-                            type="text"
-                            id="surname"
-                            onChange={(e) => setSurname(e.target.value)}
-                            ref={surnameRef}
-                            value={surname}
-                            required
-                        />
-                        <br/>
+                        <div className='field'>
+                            <label className='label' htmlFor="surname">Surname:</label>
+                            <div className='control'>
+                                <input
+                                    className='input'
+                                    type="text"
+                                    id="surname"
+                                    onChange={(e) => setSurname(e.target.value)}
+                                    ref={surnameRef}
+                                    value={surname}
+                                    required
+                                    placeholder='Surname'
+                                />
+                            </div>
+                        </div>
 
-                        <label htmlFor="email">Email:</label>
-                        <br/>
-                        <input
-                            type="text"
-                            id="email"
-                            ref={emailRef}
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            required
-                        />
-                        <br/>
+                        <div className='field'>
+                            <label className='label' htmlFor="email">Email:</label>
+                            <p className="control has-icons-left has-icons-right">
+                                <input
+                                    className='input'
+                                    type="text"
+                                    id="email"
+                                    ref={emailRef}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={email}
+                                    placeholder='Email'
+                                    required
+                                />
+                                <span className="icon is-small is-left">
+                                    <i className="fas fa-envelope"></i>
+                                </span>
+                                <span className="icon is-small is-right">
+                                    <i className="fas fa-check"></i>
+                                </span>
+                            </p>
+                        </div>
 
-                        <label htmlFor="password">Password:</label>
+                        <div className='field'>
+                            <label className='label' htmlFor="password">Password:</label>
+                            <p className="control has-icons-left">
+                                <input
+                                    className='input'
+                                    type="password"
+                                    id="password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={password}
+                                    required
+                                    placeholder='Password'
+                                    // validations={[vpassword]}
+                                />
+                                <span className="icon is-small is-left">
+                                    <i className="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
                         <br/>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            required
-                            validations={[vpassword]}
-                        />
-                        <br/><br/>
                         
-                        <button type='submit'>Sign Up</button>
+                        <button className="button is-primary" type='submit'>Sign Up</button>
                         {!loading 
                             ? null
                             : <span>...</span>}
-                        <br/>
+                        <br/><br/>
                         <button type='button' onClick={handleCancel}>Go back</button>
                     </form>
                     <p>
