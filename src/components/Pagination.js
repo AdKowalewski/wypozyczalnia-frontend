@@ -6,7 +6,7 @@ const Pagination = ({ previous, next }) => {
 
     return (
         <nav className='pagination'>
-            <a onClick={previous} className="pagination-previous">Previous</a>
+            <a onClick={previous} className="pagination-previous">Previous page</a>
             <a onClick={next} className="pagination-next">Next page</a>
         </nav>
     );
