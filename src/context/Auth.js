@@ -31,11 +31,13 @@ export const AuthProvider = (props) => {
         setRole(role);
         setIsLoggedIn(true);
         localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
     };
 
     const onLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user_id');
+        localStorage.removeItem('role');
         setToken(null);
         setId(null);
         setRole(null);

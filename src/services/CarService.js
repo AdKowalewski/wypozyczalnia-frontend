@@ -4,7 +4,7 @@ import AuthHeader from "./AuthHeader";
 const API_URL = "http://127.0.0.1:8000/cars";
 
 const getCars = (offset) => {
-    return axios.get(API_URL + "?offset=" + offset);
+    return axios.get(API_URL + `?offset=${offset}`);
 }
 
 const getCarById = (car_id) => {
@@ -18,8 +18,8 @@ const createCar = (brand, model, description, img, price) => {
     });
 };
 
-const editCar = (brand, model, description, img, price) => {
-    return axios.patch(API_URL, {'brand': brand, 'model': model, 'description': description, 'img': img, 'price': price}, {
+const editCar = (car_id, brand, model, description, img, price) => {
+    return axios.patch(API_URL + `/${car_id}`, {'brand': brand, 'model': model, 'description': description, 'img': img, 'price': price}, {
         headers: AuthHeader()
     });
 };

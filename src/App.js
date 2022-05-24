@@ -1,7 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import 'bulma/css/bulma.min.css';
 import ListOfCars from './components/ListOfCars';
 import HeaderComponent from './components/HeaderComponent';
 import SignUp from './components/SignUp';
@@ -14,9 +12,12 @@ import RequireAuth from './components/RequireAuth';
 import UserProfile from './components/UserProfile';
 import CarDetails from './components/CarDetails';
 import EditCar from './components/EditCar';
-import EditRental from './components/EditRental';
 import EditProfile from './components/EditProfile';
 import UserRentals from './components/UserRentals';
+import CarRentals from './components/CarRentals';
+import './App.css';
+import 'bulma/css/bulma.min.css';
+import './css/style.css';
 
 function App() {
 
@@ -32,16 +33,16 @@ function App() {
         <Route path='/profile/:id' element={<UserProfile/>} />
 
         <Route element={<RequireAuth allowedRole='regular_user'/>}>
-          <Route path='/editProfile/:id' element={<EditProfile/>} />
           <Route path='/cars/:car_id' element={<CarDetails/>} />
         </Route>
 
         <Route element={<RequireAuth allowedRole='admin'/>}>
+          <Route path='/carRentals/:car_id' element={<CarRentals/>} />
+          <Route path='/editProfile/:id' element={<EditProfile/>} />
           <Route path='/adminPanel' element={<AdminPanel/>} />
           <Route path='/userRentals/:id' element={<UserRentals/>} />
           <Route path='/addCar' element={<AddCar/>} />
           <Route path='/editCar/:car_id' element={<EditCar/>} />
-          <Route path='/editRental/:rental_id' element={<EditRental/>} />
         </Route>
 
         <Route path='*' element={<Missing/>} />

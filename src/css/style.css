@@ -11,7 +11,7 @@ body {
 }
 
 .image-shown {
-    width: 200px;
+    width: 400px;
 }
 
 .container {
@@ -19,23 +19,70 @@ body {
     align-items: center;
 }
 
+.file-input {
+    width: auto;
+}
+
+.dayinput {
+    height: 40px;
+}
+
+.table-container {
+    margin-bottom: 10px;
+}
+
 .card {
     width: auto;
     margin: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     position: relative;
 }
 
-.input .textarea {
+.field, .table-container {
     width: auto;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+td {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .logo {
     margin: 20px;
     padding: 10px;
+    cursor: pointer;
+    color: lightgray;
 }
 
 .button {
     margin: 4px;
+}
+
+.error-text {
+    color: red;
+}
+
+.navbar {
+    position: sticky;
+    width: 100%;
+    top: 0%;
+}
+
+.pagination-previous {
+    margin-left: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pagination-next {
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

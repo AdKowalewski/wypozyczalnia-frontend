@@ -13,14 +13,8 @@ const getUserById = (user_id) => {
     return axios.get(API_URL + `/${user_id}`, {'user_id': user_id});
 };
 
-const editUser = (email, name, surname, password) => {
-    return axios.post(API_URL, {'email': email, 'name': name, 'surname': surname, 'password': password}, {
-        headers: AuthHeader()
-    });
-};
-
-const deleteUser = () => {
-    return axios.delete(API_URL, {
+const editUser = (user_id, email, name, surname, password) => {
+    return axios.patch(API_URL + `/${user_id}`, {'email': email, 'name': name, 'surname': surname, 'password': password}, {
         headers: AuthHeader()
     });
 };
@@ -35,7 +29,6 @@ const UserService = {
     getUsers,
     getUserById,
     editUser,
-    deleteUser,
     deleteUserById
 };
 

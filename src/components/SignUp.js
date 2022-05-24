@@ -6,28 +6,16 @@ import '../css/style.css';
 
 const API_URL = 'http://127.0.0.1:8000';
 
-// const vpassword = value => {
-//     if (value.length < 6 || value.length > 40) {
-//       return (
-//         <div className="notification is-danger" role="alert">
-//             <button className="delete"></button>
-//             The password must be between 6 and 40 characters!
-//         </div>
-//       );
-//     }
-// };
-
 const SignUp = () => {
     const emailRef = useRef();
     const nameRef = useRef();
     const surnameRef = useRef();
-    //const errRef = useRef();
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [password, setPassword] = useState('');
-    // const [errMsg, setErrMsg] = useState('');
+    const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -59,6 +47,8 @@ const SignUp = () => {
             setLoading(false);
         } catch (err) {
             console.log(err);
+            if (err.response.status === 400) setErrMsg('Email already taken!');
+            else setErrMsg('Error - could not register user!');
         }
     }
 
@@ -68,6 +58,7 @@ const SignUp = () => {
 
     return (
             <>
+            <br/>
             {success ? (
                 <section>
                     <h1>Success! Thank You for registration!</h1>
@@ -77,7 +68,6 @@ const SignUp = () => {
                 </section>
             ) : (
                 <section>
-                    {/* <p ref={errRef} style={errMsg ? {color: 'red'} : {display: 'none'}} aria-live="assertive">{errMsg}</p> */}
                     <h1><strong>Sign Up</strong></h1>
                     <br/>
                     <form onSubmit={handleSignUp}>
@@ -146,7 +136,6 @@ const SignUp = () => {
                                     value={password}
                                     required
                                     placeholder='Password'
-                                    // validations={[vpassword]}
                                 />
                                 <span className="icon is-small is-left">
                                     <i className="fas fa-lock"></i>
@@ -158,9 +147,11 @@ const SignUp = () => {
                         <button className="button is-primary" type='submit'>Sign Up</button>
                         {!loading 
                             ? null
-                            : <span>...</span>}
+                            : <span>Loading...</span>}
+                        {<div><h2 style={errMsg ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{errMsg}</h2></div>}
                         <br/><br/>
-                        <button type='button' onClick={handleCancel}>Go back</button>
+                        <a type='button' onClick={handleCancel}>Go back</a>
+                        <br/><br/>
                     </form>
                     <p>
                         Already registered?<br />
@@ -168,6 +159,7 @@ const SignUp = () => {
                             <Link to="/users/login">Sign In</Link>
                         </span>
                     </p>
+                    <br/>
                 </section>
             )}
         </>

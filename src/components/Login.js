@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import 'bulma/css/bulma.min.css';
-import '../css/style.css';
 import jwt from 'jwt-decode';
 import AuthContext from '../context/Auth';
+import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -15,7 +15,6 @@ const Login = () => {
     const authCtx = useContext(AuthContext);
 
     const emailRef = useRef();
-    const errRef = useRef();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -56,6 +55,8 @@ const Login = () => {
             navigate('/');
         } catch (err) {
             console.log(err);
+            if (err.response.status === 401) setErrMsg('Invalid email or password!');
+            else setErrMsg('Error - could not login user!');
         }
     }
 
@@ -65,7 +66,7 @@ const Login = () => {
 
     return (
         <section>
-            <p ref={errRef} style={errMsg ? {color: 'red'} : {display: 'none'}} aria-live="assertive">{errMsg}</p>
+            <br/>
             <h1><strong>Sign In</strong></h1>
             <br/>
             <form onSubmit={handleLogin}>
@@ -102,7 +103,6 @@ const Login = () => {
                             value={password}
                             required
                             placeholder='Password'
-                            // validations={[vpassword]}
                         />
                         <span className="icon is-small is-left">
                             <i className="fas fa-lock"></i>
@@ -113,9 +113,11 @@ const Login = () => {
                 <button className="button is-primary" type='submit'>Sign In</button>
                 {!loading 
                     ? null
-                    : <span>.....</span>}
+                    : <span>Loading...</span>}
+                {<div><h2 style={errMsg ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{errMsg}</h2></div>}
                 <br/><br/>
-                <button type='button' onClick={handleCancel}>Go back</button>
+                <a type='button' onClick={handleCancel}>Go back</a>
+                <br/><br/>
             </form>
             <p>
                 Need an Account?<br />
@@ -123,6 +125,7 @@ const Login = () => {
                     <Link to="/users/register">Sign Up</Link>
                 </span>
             </p>
+            <br/>
         </section>
     );
 };

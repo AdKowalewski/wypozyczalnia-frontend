@@ -7,6 +7,12 @@ const getRentalsByCarId = (car_id) => {
     return axios.get(API_URL + `/car/${car_id}`);
 };
 
+const getCarAllRentalsById = (car_id) => {
+    return axios.get(API_URL + `/car/${car_id}/all`, {
+        headers: AuthHeader()
+    });
+};
+
 const getAllUserRentals = (user_id) => {
     return axios.get(API_URL + `/user/${user_id}`, {
         headers: AuthHeader()
@@ -20,7 +26,7 @@ const getUserActiveRentals = () => {
 };
 
 const getUserUnpaidRentals = () => {
-    return axios.get(API_URL + 'unpaid', {
+    return axios.get(API_URL + '/unpaid', {
         headers: AuthHeader()
     });
 };
@@ -51,6 +57,7 @@ const stopRental = (rental_id) => {
 
 const RentalService = {
     getRentalsByCarId,
+    getCarAllRentalsById,
     getAllUserRentals,
     getUserActiveRentals,
     getUserUnpaidRentals,

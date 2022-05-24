@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CarService from '../services/CarService';
 import 'bulma/css/bulma.min.css';
-import { useNavigate } from 'react-router-dom';
 import '../css/style.css';
 
 const AddCar = () => {
@@ -14,6 +14,7 @@ const AddCar = () => {
     const [img, setImg] = useState('');
     const [isImage, setIsImage] = useState(false);
     const [price, setPrice] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     const brandRef = useRef();
     const modelRef = useRef();
@@ -34,12 +35,9 @@ const AddCar = () => {
             navigate('/');
         } catch (err) {
             console.log(err);
+            setErrMsg('Error - could not add new car due to invalid data!');
         }
     };
-
-    // const encodeImage = (image) => {
-    //     setImg(String(image));
-    // };
 
     const getBase64 = (file) => {
         if (!file) setIsImage(false);
@@ -67,6 +65,7 @@ const AddCar = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <br/>
                 <div className='field'>
                     <label className='label' htmlFor="brand">Brand:</label>
                     <div className='control'>
@@ -153,9 +152,12 @@ const AddCar = () => {
                 </div>
                 <br/>
                 <button className='button is-primary' type='submit'>Add new car</button>
+                <br/>
+                {<div><h2 style={errMsg ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{errMsg}</h2></div>}
             </form>
             <br/>
-            <button onClick={handleCancel}>Go back</button>
+            <a onClick={handleCancel}>Go back</a>
+            <br/><br/>
         </div>
     );
 };

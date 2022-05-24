@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CarService from '../services/CarService';
-import 'bulma/css/bulma.min.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 
 const EditCar = () => {
 
-    //const API_URL = "http://127.0.0.1:8000/";
-    let preview = document.getElementById('preview');
+    const API_URL = "http://127.0.0.1:8000/";
     let reader = new FileReader();
 
     const navigate = useNavigate();
@@ -18,6 +18,10 @@ const EditCar = () => {
     const [isImage, setIsImage] = useState(true);
     const [img, setImg] = useState('');
     const [price, setPrice] = useState('');
+    const [previewSrc, setPreviewSrc] = useState('');
+
+    const [isImgChanged, setIsImgChanged] = useState(false);
+    const [errMsg, setErrMsg] = useState('');
 
     const brandRef = useRef();
     const modelRef = useRef();
@@ -28,10 +32,7 @@ const EditCar = () => {
         CarService.getCarById(car_id).then((res) => {
             console.log(res.data);
             setImg(res.data.img);
-            //reader.readAsDataURL(API_URL + res.data.img);
-            reader.onload = () => {
-                preview.src = reader.result;
-            }
+            setPreviewSrc(API_URL + res.data.img);
             setBrand(res.data.brand);
             setModel(res.data.model);
             setDescription(res.data.description);
@@ -43,22 +44,30 @@ const EditCar = () => {
         e.preventDefault();
 
         try {
-            const response = await CarService.editCar(brand, model, description, img, price);
-            console.log(JSON.stringify(response.data));
-            setBrand(brand);
-            setModel(model);
-            setDescription(description);
-            setImg(img);
-            setPrice(price);
-            navigate(-1);
+            if (isImgChanged) {
+                const response = await CarService.editCar(car_id, brand, model, description, img, price);
+                console.log(JSON.stringify(response.data));
+                setBrand(brand);
+                setModel(model);
+                setDescription(description);
+                setImg(img);
+                setPrice(price);
+                navigate(-1);
+            } else {
+                const response = await CarService.editCar(car_id, brand, model, description, '', price);
+                console.log(JSON.stringify(response.data));
+                setBrand(brand);
+                setModel(model);
+                setDescription(description);
+                setImg(img);
+                setPrice(price);
+                navigate(-1);
+            }
         } catch (err) {
             console.log(err);
+            setErrMsg('Error - could not edit car due to invalid data!');
         }
     };
-
-    // const encodeImage = (image) => {
-    //     setImg(image);
-    // };
 
     const handleCancel = () => {
         navigate(-1);
@@ -72,7 +81,7 @@ const EditCar = () => {
             reader.onload = () => {
                 console.log(reader.result);
                 const res = reader.result.split(',');
-                preview.src = reader.result;
+                setPreviewSrc(reader.result);
                 setImg(res[1]);
             };
             reader.onerror = (error) => {
@@ -85,19 +94,19 @@ const EditCar = () => {
         <div>
             <form onSubmit={handleSubmit}>
             <div className='field'>
-                    <label className='label' htmlFor="brand">Brand:</label>
-                    <div className='control'>
-                        <input
-                            className='input'
-                            type="text"
-                            id="brand"
-                            onChange={(e) => setBrand(e.target.value)}
-                            ref={brandRef}
-                            value={brand}
-                            required
-                            placeholder='Brand'
-                        />
-                    </div>
+                <label className='label' htmlFor="brand">Brand:</label>
+                <div className='control'>
+                    <input
+                        className='input'
+                        type="text"
+                        id="brand"
+                        onChange={(e) => setBrand(e.target.value)}
+                        ref={brandRef}
+                        value={brand}
+                        required
+                        placeholder='Brand'
+                    />
+                </div>
                 </div>
                 <div className='field'>
                     <label className='label' htmlFor="model">Model:</label>
@@ -131,16 +140,14 @@ const EditCar = () => {
                 </div>
                 <div className='field'>
                     <label className='label' htmlFor="img">Image:</label>
-                    {/* <FileBase64 multiple={ false } onDone={encodeImage} /> */}
                     <div className="file">
                         <label className="file-label">
-                            <input 
-                                required 
+                            <input
                                 className="file-input" 
                                 id="img" 
                                 type="file" 
                                 name="resume" 
-                                onChange={(e) => getBase64(e.target.files[0])}/>
+                                onChange={(e) => {getBase64(e.target.files[0]); setIsImgChanged(true)}}/>
                             <span className="file-cta">
                                 <span className="file-icon">
                                     <i className="fas fa-upload"></i>
@@ -152,7 +159,7 @@ const EditCar = () => {
                         </label>
                     </div>
                     <br/>
-                    <img id='preview' className={isImage === false ? 'image-hidden' : 'image-shown'} src='#' alt='preview' />
+                    <img id='preview' className={isImage === false ? 'image-hidden' : 'image-shown'} src={previewSrc} alt='preview' />
                 </div>
                 <div className='field'>
                     <label className='label' htmlFor="price">Price:</label>
@@ -170,10 +177,12 @@ const EditCar = () => {
                     </div>
                 </div>
                 <br/>
-                <button type='submit'>Edit car</button>
+                <button className='button is-primary' type='submit'>Edit car</button>
+                <br/>
+                {<div><h2 style={errMsg ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{errMsg}</h2></div>}
             </form>
             <br/>
-            <button onClick={handleCancel}>Go back</button>
+            <a onClick={handleCancel}>Go back</a>
         </div>
     );
 };

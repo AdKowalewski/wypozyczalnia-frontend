@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CarService from '../services/CarService';
 import AuthContext from '../context/Auth';
+import Pagination from './Pagination';
 import 'bulma/css/bulma.min.css';
 import '../css/style.css';
 
@@ -17,29 +18,35 @@ const ListOfCars = () => {
     const navigate = useNavigate();
 
     const authCtx = useContext(AuthContext);
+    const role = localStorage.getItem('role');
 
     const [cars, setCars] = useState([]);
-    //const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if(token) {
-    //         setIsLoggedIn(true);
-    //     } else {
-    //         setIsLoggedIn(false);
-    //     }
-    // }, []);
+    const [loading, setLoading] = useState(false);
+    const [offset, setOffset] = useState(0);
 
     const openDetails = (car_id) => {
         navigate(`/cars/${car_id}`);
     };
 
+    const previous = () => {
+        setOffset(offset - 1);
+        if (offset < 0) setOffset(0);
+        console.log('offset: ' + offset);
+    };
+
+    const next = () => {
+        setOffset(offset + 1);
+        console.log('offset: ' + offset);
+    };
+
     useEffect(() => {
-        CarService.getCars(0).then((res) => {
+        setLoading(true);
+        CarService.getCars(offset).then((res) => {
             console.log(res);
             setCars(res.data);
-        });
-    }, []);
+            setLoading(false);
+        })
+    }, [offset]);
 
     const deleteCarHandler = (car_id) => {
         return CarService.deleteCarById(car_id).then((res) => {
@@ -56,10 +63,16 @@ const ListOfCars = () => {
         navigate('/addCar');
     };
 
+    const goToCarRentals = (car_id) => {
+        navigate(`/carRentals/${car_id}`);
+    };
+
     return (
         <div>
-            {authCtx.role === 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
-            {cars.map(car => (
+            {role === 'admin' && <br/>}
+            {role === 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
+            <Pagination previous={previous} next={next} />
+            {!loading ? <h2>Loading...</h2> : cars.map(car => (
                 <div className='container' key={car.id}>
                     <div className='card'>
                         <div className='card-image'>
@@ -79,11 +92,14 @@ const ListOfCars = () => {
                         {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
                             <strong>Reserve</strong>
                         </a>}
-                        {authCtx.role === 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
-                        {authCtx.role === 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
+                        {role === 'admin' && <a className="button is-primary" onClick={() => goToCarRentals(car.id)}>Car rentals</a>}
+                        {role === 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
+                        {role === 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
                     </div>
                 </div>
             ))}
+            <br/>
+            <Pagination previous={previous} next={next} />
         </div>
     );
 };

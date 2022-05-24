@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../services/UserService';
+import 'bulma/css/bulma.min.css';
+import '../css/style.css';
 
 const EditProfile = () => {
 
@@ -11,6 +13,7 @@ const EditProfile = () => {
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     const nameRef = useRef();
     const surnameRef = useRef();
@@ -30,7 +33,7 @@ const EditProfile = () => {
         e.preventDefault();
 
         try {
-            const response = await UserService.editUser(email, name, surname, password);
+            const response = await UserService.editUser(id, email, name, surname, password);
             console.log(JSON.stringify(response.data));
             setName(name);
             setSurname(surname);
@@ -39,6 +42,7 @@ const EditProfile = () => {
             navigate(-1);
         } catch (err) {
             console.log(err);
+            setErrMsg('Error - could not edit user due to invalid data!');
         }
     };
 
@@ -49,6 +53,7 @@ const EditProfile = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <br/>
                 <div className='field'>
                     <label className='label' htmlFor="name">Name:</label>
                     <div className='control'>
@@ -59,7 +64,6 @@ const EditProfile = () => {
                             onChange={(e) => setName(e.target.value)}
                             ref={nameRef}
                             value={name}
-                            required
                             placeholder='Name'
                         />
                     </div>
@@ -75,7 +79,6 @@ const EditProfile = () => {
                             onChange={(e) => setSurname(e.target.value)}
                             ref={surnameRef}
                             value={surname}
-                            required
                             placeholder='Surname'
                         />
                     </div>
@@ -91,7 +94,6 @@ const EditProfile = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             placeholder='Email'
-                            required
                         />
                         <span className="icon is-small is-left">
                             <i className="fas fa-envelope"></i>
@@ -112,9 +114,7 @@ const EditProfile = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             ref={passwordRef}
                             value={password}
-                            required
                             placeholder='Password'
-                            // validations={[vpassword]}
                         />
                         <span className="icon is-small is-left">
                             <i className="fas fa-lock"></i>
@@ -123,9 +123,12 @@ const EditProfile = () => {
                 </div>
                 <br/>
                 <button className="button is-primary" type='submit'>Edit profile</button>
+                <br/>
+                {<div><h2 style={errMsg ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{errMsg}</h2></div>}
             </form>
             <br/>
-            <button onClick={handleCancel}>Go back</button> 
+            <a onClick={handleCancel}>Go back</a>
+            <br/>
         </div>
     );
 };

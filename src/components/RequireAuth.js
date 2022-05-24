@@ -4,16 +4,15 @@ import AuthContext from '../context/Auth';
 import Unauthorized from "./Unauthorized";
 
 const RequireAuth = (props) => {
-    //const location = useLocation();
 
     const authCtx = useContext(AuthContext);
 
-    //const role = localStorage.getItem('role');
+    const role = localStorage.getItem('role');
 
     return (
         <>
-            {authCtx.isLoggedIn && authCtx.role === props.allowedRole
-            // role == props.allowedRole
+            {authCtx.isLoggedIn && role === props.allowedRole
+            // authCtx.role === props.allowedRole
                 ? <Outlet />
                 : <Unauthorized />}
         </>
