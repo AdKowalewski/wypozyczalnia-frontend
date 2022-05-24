@@ -61,7 +61,7 @@ const HeaderComponent = () => {
                         {role == 'admin' && <a className="button is-primary" onClick={adminPanel}>
                             <strong>Admin Panel</strong>
                         </a>}
-                        {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => goToUserProfile(authCtx.id)}>
+                        {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => goToUserProfile(user_id)}>
                             <strong>User profile</strong>
                         </a>}
                         <a className="button is-primary" onClick={signUp}>
