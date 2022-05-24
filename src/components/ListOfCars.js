@@ -72,7 +72,7 @@ const ListOfCars = () => {
             {role === 'admin' && <br/>}
             {role === 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
             <Pagination previous={previous} next={next} />
-            {!loading ? <h2>Loading...</h2> : cars.map(car => (
+            {loading ? <h2>Loading...</h2> : cars.map(car => (
                 <div className='container' key={car.id}>
                     <div className='card'>
                         <div className='card-image'>

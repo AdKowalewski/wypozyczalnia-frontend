@@ -213,6 +213,7 @@ const CarDetails = () => {
                 }
                 <br/><br/>
                 <a onClick={handleCancel}>Go back</a>
+                <br/>
             </div>) : <h2>Loading...</h2>}
         </>
     );
