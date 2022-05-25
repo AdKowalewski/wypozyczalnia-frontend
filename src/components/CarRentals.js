@@ -13,10 +13,11 @@ const CarRentals = () => {
     const { car_id } = useParams();
 
     const [loading, setLoading] = useState(false);
+    const [err, setErr] = useState('');
 
     useEffect(() => {
         setLoading(true);
-        RentalService.getCarAllRentalsById(car_id).then((res) => {
+        RentalService.getCarAllRentals(car_id).then((res) => {
             console.log(res);
             setRentals(res.data);
             setLoading(false);
@@ -35,6 +36,17 @@ const CarRentals = () => {
         navigate(-1);
     };
 
+    const markRentalReturned = async (rental_id) => {
+        try {
+            await RentalService.returnRental(rental_id).then((res) => {
+                console.log(res.data);
+            });
+        } catch (err) {
+            console.log(err);
+            if (err.response.status === 400) setErr('Car already returned!');
+        }
+    };
+
     return (
         <div>
             <h2 style={{fontWeight: 'bold', margin: '20px'}}>Rentals of {brand} {model}</h2>
@@ -46,6 +58,7 @@ const CarRentals = () => {
                         <th>End date</th>
                         <th>User</th>
                         <th>Total price</th>
+                        <th>Status</th>
                     </tr>
                     {rentals.map(rental => (
                         <tr key={rental.id}>
@@ -54,10 +67,20 @@ const CarRentals = () => {
                             <td>{rental.rental_end}</td>
                             <td>{rental.user.name} {rental.user.surname}</td>
                             <td>{rental.total_price} zł</td>
+                            <td>
+                                {rental.returned === false
+                                    ? <button 
+                                        className="button is-primary"  
+                                        onClick={() => markRentalReturned(rental.id)}>
+                                            Mark returned
+                                    </button> : <h2>Returned</h2>}
+                            </td>
                         </tr>
                     ))}
                 </table>
             </div> : <h2 style={{marginTop: '20px'}}>This car has no any rentals yet.</h2>) : <h2>Loading...</h2>}
+            {err && <br/>}
+            {<div><h2 style={err ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{err}</h2></div>}
             <br/>
             <a onClick={handleCancel}>Go back</a>
         </div>

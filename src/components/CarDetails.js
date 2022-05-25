@@ -41,7 +41,7 @@ const CarDetails = () => {
 
     useEffect(() => {
         setLoading(true);
-        RentalService.getRentalsByCarId(car_id).then((res) => {
+        RentalService.getCarActiveRentals(car_id).then((res) => {
             setCarRentals(res.data);
             setLoading(false);
         });

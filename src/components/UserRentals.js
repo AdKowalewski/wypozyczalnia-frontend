@@ -13,7 +13,8 @@ const UserRentals = () => {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
 
-    const[loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [err, setErr] = useState('');
 
     useEffect(() => {
         UserService.getUserById(id).then((res) => {
@@ -36,6 +37,17 @@ const UserRentals = () => {
         navigate(-1);
     };
 
+    const markRentalReturned = async (rental_id) => {
+        try {
+            await RentalService.returnRental(rental_id).then((res) => {
+                console.log(res.data);
+            });
+        } catch (err) {
+            console.log(err);
+            if (err.response.status === 400) setErr('Car already returned!');
+        }
+    };
+
     return (
         <div>
             <h1 style={{fontWeight: 'bold', margin: '20px'}}>{'Rentals of ' + name + ' ' + surname}</h1>
@@ -49,6 +61,7 @@ const UserRentals = () => {
                         <th>Brand</th>
                         <th>Model</th>
                         <th>Total price</th>
+                        <th>Status</th>
                     </tr>
                     {rentals.map(rental => (
                         <tr key={rental.id}>
@@ -58,10 +71,20 @@ const UserRentals = () => {
                             <td>{rental.car.brand}</td>
                             <td>{rental.car.model}</td>
                             <td>{rental.total_price} zł</td>
+                            <td>
+                                {rental.returned === false
+                                    ? <button 
+                                        className="button is-primary"  
+                                        onClick={() => markRentalReturned(rental.id)}>
+                                            Mark returned
+                                    </button> : <h2>Returned</h2>}
+                            </td>
                         </tr>
                     ))}
                 </table>
             </div> : <h2>This user has no any rentals yet.</h2>) : <h2>Loading...</h2>}
+            {err && <br/>}
+            {<div><h2 style={err ? {color: 'red', fontWeight: 'bold'} : {display: 'none'}}>{err}</h2></div>}
             <br/>
             <a onClick={handleCancel}>Go back</a>
         </div>

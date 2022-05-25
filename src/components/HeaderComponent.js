@@ -56,7 +56,7 @@ const HeaderComponent = () => {
             <div className="logo" onClick={logoRedirect}><h1 style={{fontWeight: 'bold'}}>CAR RENTAL</h1></div>
             <div className="navbar-end">
                 <div className="navbar-item">
-                    {authCtx.isLoggedIn && <h2 style={{margin: '10px'}}>{'Welcome ' + name + ' ' + surname}</h2>}
+                    {authCtx.isLoggedIn && <h2 style={{margin: '10px'}}>Welcome <b>{name + ' ' + surname}</b></h2>}
                     <div className="buttons">                    
                         {role == 'admin' && <a className="button is-primary" onClick={adminPanel}>
                             <strong>Admin Panel</strong>

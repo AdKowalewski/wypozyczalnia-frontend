@@ -21,6 +21,7 @@ const ListOfCars = () => {
     const role = localStorage.getItem('role');
 
     const [cars, setCars] = useState([]);
+    const [nextCars, setNextCars] = useState([]);
     const [loading, setLoading] = useState(false);
     const [offset, setOffset] = useState(0);
 
@@ -35,7 +36,7 @@ const ListOfCars = () => {
     };
 
     const next = () => {
-        setOffset(offset + 1);
+        if (nextCars.length !== 0) setOffset(offset + 1);
         console.log('offset: ' + offset);
     };
 
@@ -46,6 +47,18 @@ const ListOfCars = () => {
             setCars(res.data);
             setLoading(false);
         })
+    }, [offset]);
+
+    useEffect(() => {
+        try{
+            CarService.getCars(offset + 1).then((res) => {
+                console.log(res);
+                setNextCars(res.data);
+            })
+        } catch (err) {
+            console.log('no next cars');
+            setNextCars([]);
+        }
     }, [offset]);
 
     const deleteCarHandler = (car_id) => {
@@ -72,32 +85,34 @@ const ListOfCars = () => {
             {role === 'admin' && <br/>}
             {role === 'admin' && <button className="button is-primary" onClick={goToAddCarForm}>Add car</button>}
             <Pagination previous={previous} next={next} />
-            {loading ? <h2>Loading...</h2> : cars.map(car => (
-                <div className='container' key={car.id}>
-                    <div className='card'>
-                        <div className='card-image'>
-                            <figure className="image is-4by3">
-                                <img src={API_URL + car.img} alt="car"/>
-                            </figure>
-                        </div>
-                        <div className='card-content'>
-                            <div className="media-content">
-                                <p className="title is-4">{car.brand}</p>
-                                <p className="subtitle is-6">{car.model}</p>
+            <div className='box ml-5 mr-5'>
+                {loading ? <h2>Loading...</h2> : cars.map(car => (
+                    <div className='container' key={car.id}>
+                        <div className='card'>
+                            <div className='card-image'>
+                                <figure className="image is-16by9">
+                                    <img src={API_URL + car.img} alt="car"/>
+                                </figure>
                             </div>
+                            <div className='card-content'>
+                                <div className="media-content">
+                                    <p className="title is-4">{car.brand}</p>
+                                    <p className="subtitle is-6">{car.model}</p>
+                                </div>
+                            </div>
+                            <div className="content">
+                                Price for 1 day: {car.price}zł
+                            </div>
+                            {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
+                                <strong>Reserve</strong>
+                            </a>}
+                            {role === 'admin' && <a className="button is-primary" onClick={() => goToCarRentals(car.id)}>Car rentals</a>}
+                            {role === 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
+                            {role === 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
                         </div>
-                        <div className="content">
-                            Price for 1 day: {car.price}zł
-                        </div>
-                        {authCtx.isLoggedIn && <a className="button is-primary" onClick={() => openDetails(car.id)}>
-                            <strong>Reserve</strong>
-                        </a>}
-                        {role === 'admin' && <a className="button is-primary" onClick={() => goToCarRentals(car.id)}>Car rentals</a>}
-                        {role === 'admin' && <a className="button is-primary" onClick={() => goToEditCarForm(car.id)}>Edit car</a>}
-                        {role === 'admin' && <a className="button is-danger" onClick={() => deleteCarHandler(car.id)}>Delete car</a>}
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
             <br/>
             <Pagination previous={previous} next={next} />
         </div>

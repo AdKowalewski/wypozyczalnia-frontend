@@ -3,12 +3,12 @@ import AuthHeader from "./AuthHeader";
 
 const API_URL = "http://127.0.0.1:8000/rentals";
 
-const getRentalsByCarId = (car_id) => {
-    return axios.get(API_URL + `/car/${car_id}`);
+const getCarActiveRentals = (car_id) => {
+    return axios.get(API_URL + `/car/${car_id}/active`);
 };
 
-const getCarAllRentalsById = (car_id) => {
-    return axios.get(API_URL + `/car/${car_id}/all`, {
+const getCarAllRentals = (car_id) => {
+    return axios.get(API_URL + `/car/${car_id}`, {
         headers: AuthHeader()
     });
 };
@@ -26,13 +26,25 @@ const getUserActiveRentals = () => {
 };
 
 const getUserUnpaidRentals = () => {
-    return axios.get(API_URL + '/unpaid', {
+    return axios.get(API_URL + `/unpaid`, {
+        headers: AuthHeader()
+    });
+};
+
+const getUserUnreturnedRentals = () => {
+    return axios.get(API_URL + `/unreturned`, {
         headers: AuthHeader()
     });
 };
 
 const payRental = (rental_id) => {
     return axios.get(API_URL + `/pay/${rental_id}`, {
+        headers: AuthHeader()
+    });
+};
+
+const returnRental = (rental_id) => {
+    return axios.get(API_URL + `/${rental_id}/return`, {
         headers: AuthHeader()
     });
 };
@@ -50,21 +62,23 @@ const changeRental = (rental_start, rental_end) => {
 };
 
 const stopRental = (rental_id) => {
-    return axios.patch(API_URL + `/${rental_id}`, {'rental_id': rental_id}, {
+    return axios.delete(API_URL + `/${rental_id}`, {
         headers: AuthHeader()
     });
 };
 
 const RentalService = {
-    getRentalsByCarId,
-    getCarAllRentalsById,
+    getCarActiveRentals,
+    getCarAllRentals,
     getAllUserRentals,
     getUserActiveRentals,
     getUserUnpaidRentals,
+    getUserUnreturnedRentals,
     payRental,
     createRental,
     changeRental,
-    stopRental
+    stopRental,
+    returnRental
 };
 
 export default RentalService;
